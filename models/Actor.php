@@ -1,17 +1,21 @@
 <?php
-    require_once('components/Db.php');
-    require_once('config/db.php');
     class Actor {
-        private $_connection;
+        private $_db;
         public function __construct() {
-            $this->_connection = DB::getConnection();
+            require_once('components/Db.php');
+            $connection = DB::getConnection();
+            $this->_db = $connection;
         }
-
-        public function getAll(){
-            mysqli_set_charset($this->_connection, 'utf8');
-            $query = 'SELECT * FROM `actors`';
-            $result = mysqli_query($this->_connection,$query);
-            return mysqli_fetch_all($result,MYSQLI_ASSOC);
+        public function getAll() {
+            $query = "SELECT * FROM `actors`;";
+            $result = mysqli_query($this->_db, $query);
+            return mysqli_fetch_all($result, MYSQLI_ASSOC);
+        }
+        public function getOneById($id){
+            $query = "SELECT * FROM `actors`
+                        WHERE `actor_id` = $id;";
+            $result = mysqli_query($this->_db, $query);
+            return mysqli_fetch_all($result, MYSQLI_ASSOC);
         }
         public function save($actor){
             $query = "INSERT INTO `actors` 
@@ -21,7 +25,7 @@
                             `actor_rating` = '$actor[actor_rating]',
                             `actor_description` = '$actor[actor_description]',
                             `actor_awards` = '$actor[actor_awards]';";
-            if(mysqli_query($this->_connection, $query)){
+            if(mysqli_query($this->_db, $query)){
                 return True;
             }
             else{
@@ -37,7 +41,7 @@
                             `actor_description` = '$actor[actor_description]',
                             `actor_awards` = '$actor[actor_awards]'
                         WHERE `actor_id` = $id;";
-            if(mysqli_query($this->_connection, $query)){
+            if(mysqli_query($this->_db, $query)){
                 return True;
             }
             else{
