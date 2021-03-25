@@ -1,63 +1,85 @@
 <?php
-    require_once('models/Actor.php');
     class ActorController {
         private $_actorModel;
+        public $userIsAuthorized;
+        private $_userModel;
         public function __construct() {
             $this->_actorModel = new Actor();
+            $this->_userModel = new User();
+            $this->userIsAuthorized = $this->_userModel->checkIfUserAuth();
         }
         public function actionIndex(){
-            $actorsArr = $this->_actorModel->getAll();
+            $actorData = $this->_actorModel->getAll();
             include_once('views/common/header.php');
             include_once('views/actor/index.php');
             include_once('views/common/footer.php');
             return;
         }
         public function actionView($id){
-            $actorOne = $this->_actorModel->getOneById($id);
-            $actorsArr = $actorOne;
+            $actorData  = $this->_actorModel->getOneById($id);
+            include_once('views/common/header.php');
             include_once('views/actor/index.php');
-            //throw at 404 if no such news
+            include_once('views/common/footer.php');
             return;
         }
         public function actionAdd(){
-            if (isset($_POST['news_title'])){
-                $newsTitle = htmlentities($_POST['news_title']);
-                $newsAuthor = htmlentities($_POST['news_author']);
-                $newsDescription = htmlentities($_POST['news_description']);
-                $newsTags = htmlentities($_POST['news_tags']);
+            if (isset($_POST['actor_name'])){
+                $actorName = htmlentities($_POST['actor_name']);
+                $actorDob = htmlentities($_POST['actor_dob']);
+                $actorCountry = htmlentities($_POST['actor_country']);
+                $actorRating = htmlentities($_POST['actor_rating']);
+                $actorDescription = htmlentities($_POST['actor_description']);
+                $actorAwards = htmlentities($_POST['actor_awards']);
                 //Понаделать проверок
                 $data = array(
-                    'title' => $newsTitle,
-                    'author' => $newsAuthor,
-                    'description' => $newsDescription,
-                    'tags' => $newsTags
+                    'actor_name' => $actorName,
+                    'actor_dob' => $actorDob,
+                    'actor_country' => $actorCountry,
+                    'actor_rating' => $actorRating,
+                    'actor_description' => $actorDescription,
+                    'actor_awards' => $actorAwards
                 );
-                if($this->newsModel->save($data)){
-                    header('Location:'.FULL_SITE_ROOT.'news/index');
+                if($this->_actorModel->save($data)){
+                    header('Location:'.FULL_SITE_ROOT.'actor/index');
+                }
+                else{
+                    echo 'ERROR';
                 }
             }
-            include_once('views/news/add.php');
+            include_once('views/common/header.php');
+            include_once('views/actor/add.php');
+            include_once('views/common/footer.php');
             return;
         }
         public function actionEdit($id){
-            if (isset($_POST['news_title'])) {
-                $newsTitle = htmlentities($_POST['news_title']);
-                $newsAuthor = htmlentities($_POST['news_author']);
-                $newsDescription = htmlentities($_POST['news_description']);
-                $newsTags = htmlentities($_POST['news_tags']);
-                //Понаделать проверок
+            $actorData = $this->_actorModel->getOneById($id);
+            $actorData = $actorData[0];
+            include_once('views/common/header.php');
+            include_once('views/actor/edit.php');
+            include_once('views/common/footer.php');
+            if (isset($_POST['actor_name'])) {
+                $actorName = htmlentities($_POST['actor_name']);
+                $actorDob = htmlentities($_POST['actor_dob']);
+                $actorCountry = htmlentities($_POST['actor_country']);
+                $actorRating = htmlentities($_POST['actor_rating']);
+                $actorDescription = htmlentities($_POST['actor_description']);
+                $actorAwards = htmlentities($_POST['actor_awards']);
                 $data = array(
-                    'title' => $newsTitle,
-                    'author' => $newsAuthor,
-                    'description' => $newsDescription,
-                    'tags' => $newsTags
+                    'actor_name' => $actorName,
+                    'actor_dob' => $actorDob,
+                    'actor_country' => $actorCountry,
+                    'actor_rating' => $actorRating,
+                    'actor_description' => $actorDescription,
+                    'actor_awards' => $actorAwards
                 );
-                if ($this->newsModel->update($data, $id)) {
-                    header('Location:' . FULL_SITE_ROOT . 'news/index');
+                if ($this->_actorModel->update($data, $id)) {
+                    header('Location:' . FULL_SITE_ROOT . 'actor/index');
                 }
-                $newsInfo = $this->newsModel->getOneById($id);
-                include_once('views/news/edit.php');
-                return;
             }
+            return;
+        }
+        public function actionDelete($id){
+            $this->_actorModel->remove($id);
+            header('Location:'.FULL_SITE_ROOT.'actor/index');
         }
     }

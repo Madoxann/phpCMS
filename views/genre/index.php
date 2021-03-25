@@ -1,21 +1,21 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Актеры</a>
+    <a class="navbar-brand" href="#">Жанры</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="<?= FULL_SITE_ROOT?>actor/add">Добавить запись</a>
+                <a class="nav-link" href="<?= FULL_SITE_ROOT?>genre/add">Добавить запись</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?= FULL_SITE_ROOT?>producer/index">Режиссеры</a>
+                <a class="nav-link" href="<?= FULL_SITE_ROOT?>actor/add">Актеры</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?= FULL_SITE_ROOT?>movie/index">Фильмы</a>
+                <a class="nav-link" href="<?= FULL_SITE_ROOT?>producer/add">Режиссеры</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="<?= FULL_SITE_ROOT?>genre/index">Жанры</a>
+                <a class="nav-link" href="<?= FULL_SITE_ROOT?>movie/add">Фильмы</a>
             </li>
             <?php if (!$this->userIsAuthorized){?>
             <li class="nav-item">
@@ -40,6 +40,13 @@
             <button type="button" data-bs-target="#slide" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
+            <div class="carousel-item">
+                <img src="<?= FULL_SITE_ROOT?>views/img/actor.jpg" class="card-img-top" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Актеры</h5>
+                    <p>Все об актерах</p>
+                </div>
+            </div>
             <div class="carousel-item active" data-bs-interval="10000">
                 <img src="<?= FULL_SITE_ROOT?>views/img/producer.jpg" class="card-img-top" alt="...">
                 <div class="carousel-caption d-none d-md-block">
@@ -54,13 +61,6 @@
                     <p>Даты премьер, оценки агрегаторов, и многое другое</p>
                 </div>
             </div>
-            <div class="carousel-item">
-                <img src="<?= FULL_SITE_ROOT?>views/img/genres.jpg" class="card-img-top" alt="...">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5>Жанры</h5>
-                    <p>Узнайте о жанрах кино и выберите шедевр на свой вкус</p>
-                </div>
-            </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#slide"  data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -72,7 +72,7 @@
         </button>
     </div>
     <?php $counter = 0?>
-    <?php foreach ($actorData as $actorOne): ?>
+    <?php foreach ($genreData as $genreOne): ?>
         <?php $counter += 1?>
         <?php if($counter % 4 == 0 || $counter == 1){
             echo '<div class="row">';
@@ -80,13 +80,11 @@
         <div class="col">
             <div class="card" style="width: 20rem;">
                 <div class="card-body">
-                    <h5 class="card-title"><?= $actorOne['actor_name']; ?></h5>
-                    <p class="card-text">Родился: <?= $actorOne['actor_dob']; ?>, Страна: <?= $actorOne['actor_country']; ?>, Оценка пользователей: <?= $actorOne['actor_rating']; ?></p>
-                    <p class="card-text"><?= $actorOne['actor_description']; ?></p>
-                    <p class="card-text">Награды: <?= $actorOne['actor_awards']; ?></p>
+                    <h5 class="card-title"><?= $genreOne['genre_name']; ?></h5>
+                    <p class="card-text">Описание: <?=$genreOne['genre_description'];?></p>
                     <div class="text-center">
-                        <a href="<?= FULL_SITE_ROOT?>actor/edit/<?=$actorOne['actor_id']?>" class="btn btn-primary">Изменить</a>
-                        <a href="<?= FULL_SITE_ROOT?>actor/delete/<?=$actorOne['actor_id']?>" class="btn btn-danger">Удалить</a>
+                        <a href="<?= FULL_SITE_ROOT?>genre/edit/<?=$genreOne['genre_id']?>" class="btn btn-primary">Изменить</a>
+                        <a href="<?= FULL_SITE_ROOT?>genre/delete/<?=$genreOne['genre_id']?>" class="btn btn-danger">Удалить</a>
                     </div>
                 </div>
             </div>

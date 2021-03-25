@@ -33,7 +33,7 @@
             }
         }
         public function update($actor, $id){
-            $query = "UPDATE `news` 
+            $query = "UPDATE `actors` 
                         SET `actor_name` = '$actor[actor_name]',
                             `actor_dob` = '$actor[actor_dob]',
                             `actor_country` = '$actor[actor_country]',
@@ -47,5 +47,13 @@
             else{
                 return False;
             }
+        }
+        public function remove($id){
+            $query = "
+                DELETE FROM `actors`
+                WHERE `actor_id` = $id;
+                    ";
+            mysqli_query($this->_db, $query);
+            return;
         }
     }

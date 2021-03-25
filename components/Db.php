@@ -9,10 +9,6 @@ final class DB{
     }
     private function __clone(){
     }
-    private function __wakeup(){
-    }
-    private function __sleep(){
-    }
     public static function getConnection(){
         if (!self::$db){
             new self();
