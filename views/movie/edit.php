@@ -28,7 +28,7 @@
                 <label class="input-group-text" for="inputGroupSelect01">ID режиссера</label>
             </div>
             <select class="custom-select" id="inputGroupSelect01" name="movie_producer_id">
-                <option selected>Choose...</option>
+                <option selected><?=$movieData['producer_id'];?></option>
                 <?php foreach ($producersId as $oneId){?>
                 <option value="<?=$oneId['producer_id'];?>"><?=$oneId['producer_id'];?></option>
                 <?php }?>
@@ -43,7 +43,7 @@
                 <label class="input-group-text" for="inputGroupSelect01">ID жанра</label>
             </div>
             <select class="custom-select" id="inputGroupSelect01" name="movie_genre_id">
-                <option selected>Choose...</option>
+                <option selected><?=$movieData['genre_id'];?></option>
                 <?php foreach ($genresId as $oneId){?>
                     <option value="<?=$oneId['genre_id'];?>"><?=$oneId['genre_id'];?></option>
                 <?php }?>

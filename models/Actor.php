@@ -7,25 +7,27 @@
             $this->_db = $connection;
         }
         public function getAll() {
-            $query = "SELECT * FROM `actors`;";
-            $result = mysqli_query($this->_db, $query);
+            $query = new Select('`actors`');
+            $result = mysqli_query($this->_db, $query->build());
             return mysqli_fetch_all($result, MYSQLI_ASSOC);
         }
         public function getOneById($id){
-            $query = "SELECT * FROM `actors`
-                        WHERE `actor_id` = $id;";
-            $result = mysqli_query($this->_db, $query);
+            $query = new Select('`actors`');
+            $query->where("WHERE `actor_id` = $id");
+            $result = mysqli_query($this->_db, $query->build());
             return mysqli_fetch_all($result, MYSQLI_ASSOC);
         }
         public function save($actor){
-            $query = "INSERT INTO `actors` 
-                        SET `actor_name` = '$actor[actor_name]',
-                            `actor_dob` = '$actor[actor_dob]',
-                            `actor_country` = '$actor[actor_country]',
-                            `actor_rating` = '$actor[actor_rating]',
-                            `actor_description` = '$actor[actor_description]',
-                            `actor_awards` = '$actor[actor_awards]';";
-            if(mysqli_query($this->_db, $query)){
+            $query = new Insert('`actors`');
+            $set = array('`actor_name`' => $actor['actor_name'],
+                         '`actor_dob`' => $actor['actor_dob'],
+                         '`actor_country`' => $actor['actor_country'],
+                         '`actor_rating`' => $actor['actor_rating'],
+                         '`actor_description`' => $actor['actor_description'],
+                         '`actor_awards`' => $actor['actor_awards']);
+            $query->set($set);
+
+            if(mysqli_query($this->_db, $query->build())){
                 return True;
             }
             else{
@@ -33,15 +35,16 @@
             }
         }
         public function update($actor, $id){
-            $query = "UPDATE `actors` 
-                        SET `actor_name` = '$actor[actor_name]',
-                            `actor_dob` = '$actor[actor_dob]',
-                            `actor_country` = '$actor[actor_country]',
-                            `actor_rating` = '$actor[actor_rating]',
-                            `actor_description` = '$actor[actor_description]',
-                            `actor_awards` = '$actor[actor_awards]'
-                        WHERE `actor_id` = $id;";
-            if(mysqli_query($this->_db, $query)){
+            $query = new Update('`actors`');
+            $set = array('`actor_name`' => $actor['actor_name'],
+                '`actor_dob`' => $actor['actor_dob'],
+                '`actor_country`' => $actor['actor_country'],
+                '`actor_rating`' => $actor['actor_rating'],
+                '`actor_description`' => $actor['actor_description'],
+                '`actor_awards`' => $actor['actor_awards']);
+            $query->where("WHERE `actor_id` = $id");
+            $query->set($set);
+            if(mysqli_query($this->_db, $query->build())){
                 return True;
             }
             else{
@@ -49,11 +52,9 @@
             }
         }
         public function remove($id){
-            $query = "
-                DELETE FROM `actors`
-                WHERE `actor_id` = $id;
-                    ";
-            mysqli_query($this->_db, $query);
+            $query = new Delete('`actors`');
+            $query->where("WHERE `actor_id` = $id");
+            mysqli_query($this->_db, $query->build());
             return;
         }
     }

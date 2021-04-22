@@ -87,6 +87,22 @@ class User{
         }
         return False;
     }
+    public function getRole(){
+        if ($this->checkIfUserAuth() == True){
+            $userId = $_COOKIE['user_id'];
+            $query = "
+                    SELECT `user_is_admin` FROM `users`
+                    WHERE `user_id` = $userId;
+                ";
+            $result = mysqli_query($this->db, $query);
+            $role = mysqli_fetch_all($result);
+            if ($role[0][0] == 1){
+                return 'admin';
+            }
+            return 'authorized';
+        }
+        return 'unauthorized';
+    }
     public function logout(){
         $userId = $_COOKIE['user_id'];
         $token = $_COOKIE['token'];

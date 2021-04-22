@@ -81,7 +81,7 @@
             <div class="card" style="width: 20rem;">
                 <div class="card-body">
                     <h5 class="card-title"><?= $movieOne['movie_name']; ?></h5>
-                    <p class="card-text">Выпущен в прокат: <?= $movieOne['movie_release_date']; ?>, Режиссер: <?= $movieOne['movie_producer_name']; ?>,  Жанр: <?= $movieOne['movie_genre_name']; ?>, Оценка пользователей: <?= $movieOne['movie_rating']; ?></p>
+                    <p class="card-text">Выпущен в прокат: <?= $movieOne['movie_release_date']; ?>, Режиссер: <?= $movieOne['producer_name']; ?>,  Жанр: <?= $movieOne['genre_name']; ?>, Оценка пользователей: <?= $movieOne['movie_rating']; ?></p>
                     <p class="card-text"><?= $movieOne['movie_description']; ?></p>
                     <p class="card-text">Награды: <?= $movieOne['movie_awards']; ?></p>
                     <div class="text-center">
